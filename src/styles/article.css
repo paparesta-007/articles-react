@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+@layer components {
+    /* Impostiamo il font di base per tutti gli elementi con la classe markdown-text tranne gli header e altri con altezza fissa */
+    .markdown-text p,ul,ol,li {
+        font-size: 1.2rem !important; /* Impostiamo il font-size per tutti */
+    }
+
+    /* Mantenere la dimensione dei font per gli header */
+    .markdown-text h1 {
+        @apply text-4xl font-bold text-black mt-6 mb-4 ;
+    }
+
+    .markdown-text h2 {
+        @apply text-3xl font-semibold text-black mt-5 mb-3;
+    }
+
+    .markdown-text h3 {
+        @apply text-2xl font-semibold text-black mt-4 mb-2;
+    }
+
+    .markdown-text h4 {
+        @apply text-xl font-medium text-black mt-3 mb-2;
+    }
+
+    .markdown-text h5 {
+        @apply text-lg font-medium text-black mt-2 mb-1;
+    }
+
+    .markdown-text h6 {
+        @apply text-base font-medium text-black mt-2 mb-1;
+    }
+
+    /* Paragrafi */
+    .markdown-text p {
+        @apply text-base text-gray-900 leading-relaxed mb-4;
+    }
+
+    /* Liste */
+    .markdown-text ul {
+        @apply list-disc pl-5 mb-4;
+    }
+
+    .markdown-text ol {
+        @apply list-decimal pl-5 mb-4;
+    }
+
+    .markdown-text li {
+        @apply text-base  ml-4 text-gray-900 mb-2;
+    }
+
+    /* Blocchi di citazione */
+    .markdown-text blockquote {
+        @apply border-l-4 pl-4 italic text-gray-600 border-gray-800 bg-[rgba(0,0,0,0.06)] rounded-sm mb-4;
+    }
+
+    /* Link */
+    .markdown-text a {
+        @apply text-blue-500 hover:text-blue-700 underline;
+    }
+
+    /* Immagini */
+    .markdown-text img {
+        @apply max-w-full h-auto mb-4;
+    }
+
+    /* Codice inline */
+    .markdown-text code {
+        @apply  text-gray-800 px-1 py-0.5 rounded-sm;
+    }
+
+    /* Blocchi di codice */
+    .markdown-text pre {
+        @apply bg-[rgba(0,0,0,0.08)]  text-white p-4 rounded-lg overflow-auto mb-4;
+    }
+
+    /* Separatori orizzontali */
+    .markdown-text hr {
+        @apply border-t-2 border-gray-200 my-4;
+    }
+
+    /* Tabelle */
+    .markdown-text table {
+        @apply w-full border-collapse mb-4;
+    }
+
+    .markdown-text thead {
+        @apply bg-gray-100;
+    }
+
+    .markdown-text th {
+        @apply border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700;
+    }
+
+    .markdown-text td {
+        @apply border border-gray-300 px-4 py-2 text-gray-700;
+    }
+
+    /* Testo in grassetto */
+    .markdown-text strong, .markdown-text b {
+        @apply font-bold text-gray-900;
+    }
+
+    /* Testo in corsivo */
+    .markdown-text em, .markdown-text i {
+        @apply italic text-gray-800;
+    }
+
+    /* Testo barrato */
+    .markdown-text del, .markdown-text s {
+        @apply line-through text-gray-500;
+    }
+
+    /* Liste di definizione */
+    .markdown-text dl {
+        @apply mb-4;
+    }
+
+    .markdown-text dt {
+        @apply font-bold text-gray-900 mb-1;
+    }
+
+    .markdown-text dd {
+        @apply pl-4 mb-2 text-gray-700;
+    }
+
+    /* Input da tastiera */
+    .markdown-text kbd {
+        @apply px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-300 rounded shadow-sm;
+    }
+
+    /* Abbreviazioni */
+    .markdown-text abbr {
+        @apply cursor-help border-b border-dotted border-gray-500;
+    }
+
+    /* Note a piè di pagina */
+    .markdown-text .footnote {
+        @apply text-sm text-gray-500 align-super;
+    }
+
+    .markdown-text .footnotes {
+        @apply mt-8 pt-4 border-t border-gray-200;
+    }
+
+    /* Liste di attività (checkbox) */
+    .markdown-text .task-list-item {
+        @apply flex items-start;
+    }
+
+    .markdown-text .task-list-item input[type="checkbox"] {
+        @apply mr-2 mt-1;
+    }
+
+    /* Callout/Avvisi */
+    .markdown-text .callout {
+        @apply p-4 mb-4 rounded-lg border-l-4;
+    }
+
+    .markdown-text .callout-info {
+        @apply bg-blue-50 border-blue-500 text-blue-800;
+    }
+
+    .markdown-text .callout-warning {
+        @apply bg-yellow-50 border-yellow-500 text-yellow-800;
+    }
+
+    .markdown-text .callout-danger {
+        @apply bg-red-50 border-red-500 text-red-800;
+    }
+
+    .markdown-text .callout-success {
+        @apply bg-green-50 border-green-500 text-green-800;
+    }
+
+    /* Evidenziazione */
+    .markdown-text mark {
+        @apply bg-yellow-200 px-1 rounded-sm;
+    }
+
+    /* Sottoscritto e sovrascritto */
+    .markdown-text sub {
+        @apply text-xs align-sub;
+    }
+
+    .markdown-text sup {
+        @apply text-xs align-super;
+    }
+
+    /* Dettagli e sommario (accordion) */
+    .markdown-text details {
+        @apply mb-4;
+    }
+
+    .markdown-text summary {
+        @apply cursor-pointer font-medium text-gray-800 hover:text-gray-900;
+    }
+
+    /* Contenitore per figure con didascalia */
+    .markdown-text figure {
+        @apply mb-4;
+    }
+
+    .markdown-text figcaption {
+        @apply text-sm text-center text-gray-500 mt-2;
+    }
+}
