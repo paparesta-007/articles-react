@@ -29,7 +29,7 @@ const Home = () => {
                     <img
                         src={imgHome}
                         alt="AI writing articles"
-                        className="w-full max-w-md drop-shadow-lg"
+                        className="w-full max-w-md select-none drop-shadow-lg"
                     />
                 </div>
             </div>

@@ -66,7 +66,7 @@
 
     /* Codice inline */
     .markdown-text code {
-        @apply  text-gray-800 bg-[rgba(0,0,0,0.06)] text-[15px]  px-1 py-0.5 rounded-sm;
+        @apply  text-gray-800 bg-[rgba(0,0,0,0.06)] text-[15px] px-1 py-0.5 rounded-sm;
     }
 
     /* Blocchi di codice */
@@ -160,7 +160,7 @@
     }
 
     .markdown-text .callout-info {
-        @apply bg-blue-50 border-blue-500 text-blue-800;
+        @apply bg-green-200 border-blue-500 text-blue-800;
     }
 
     .markdown-text .callout-warning {
@@ -172,7 +172,7 @@
     }
 
     .markdown-text .callout-success {
-        @apply bg-green-50 border-green-500 text-green-800;
+        @apply bg-green-200 border-green-500 text-green-800;
     }
 
     /* Evidenziazione */
@@ -210,13 +210,21 @@
 /* Importa il tema base */
 
 /* Sovrascrive lo sfondo per renderlo trasparente */
-pre[class*="language-"]
-{
-    background: rgba(0, 0, 0, 0.1) !important;
-    /*opacity: 10%;*/
+/* Stile per il blocco <pre> che contiene il codice */
+pre[class*="language-"] {
+    background: rgba(0, 0, 0, 0.1) !important; /* sfondo leggero trasparente */
+    font-size: 14px !important; /* dimensione del testo */
+    padding: 1em !important; /* padding interno */
+    border-radius: 8px !important; /* angoli arrotondati */
+    overflow: auto !important; /* scroll se necessario */
 }
-code[class*="language-"],pre[class*="language-"]{
+
+/* Stile per il testo del codice */
+code[class*="language-"] {
     font-size: 14px !important;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    color: #333 !important; /* colore del testo */
+    background: transparent !important; /* elimina lo sfondo se serve */
 }
 
 
