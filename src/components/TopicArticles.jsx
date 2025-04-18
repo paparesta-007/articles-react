@@ -15,8 +15,7 @@ const TopicArticles = () => {
 
     return (
         <div className="p-6 border border-green-300 items-center flex flex-col">
-            <h1 className="text-3xl font-bold">{decodeURIComponent(article)}</h1>
-            <p className="mt-2 text-gray-700">
+            <p className="text-2xl text-gray-700">
                 Articolo nel topic: <strong>{decodeURIComponent(topic)}</strong>
             </p>
 
@@ -25,7 +24,7 @@ const TopicArticles = () => {
                     articles.map((article, index) => (
                         <Link to={`/topics/${encodeURIComponent(topic)}/${encodeURIComponent(article)}`} key={index} className="mt-4 p-4 border hover:shadow-lg rounded flex flex-col md:flex-row items-start justify-between">
                             <div className="w-full md:w-[60%]  flex flex-col">
-                                <h2 className="text-2xl font-semibold">{article}</h2>
+                                <h2 className="text-xl font-semibold">{article}</h2>
                                 {/* Qui puoi aggiungere il contenuto dell'articolo, se presente */}
                                 <p className="text-gray-700">Contenuto dell'articolo per {article}...</p>
                             </div>

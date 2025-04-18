@@ -12,10 +12,11 @@ body {
     /*background-color: white;*/
     /*font-family: "Styrene", Times, serif;*/
     font-family: "Times New Roman", sans-serif;
+    scroll-behavior: smooth;
 
 }
 .titleHome{
-    font-family: "Comic Sans MS", Times, serif;
+    font-family: "Styrene", Times, serif;
 }
 /* HTML: <div class="loader"></div> */
 .loader {

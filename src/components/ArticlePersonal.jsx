@@ -13,7 +13,7 @@ function ArticlePersonal() {
             {/*<Navbar />*/}
             <PromptAI onSend={setMessage} />
             <Article message={message} />
-            <Footer />
+            {/*<Footer />*/}
         </div>
     );
 }

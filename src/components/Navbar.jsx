@@ -32,7 +32,7 @@ const Navbar = () => {
     return (
         <div className="flex sticky top-0 bg-[#F2EFC7] py-2 px-2 items-center justify-between w-full z-50">
             <div>
-                <h1 className="text-3xl font-bold">AI Articles</h1>
+                <Link to="/" className="text-3xl font-bold">AI Articles</Link>
             </div>
             <div>
                 <ul className="flex gap-4 text-lg relative select-none">
@@ -58,6 +58,7 @@ const Navbar = () => {
                                 <Link
                                     to={`/topics/${encodeURIComponent(topic.name)}`}
                                     key={i}
+                                    onClick={() => handleClick()}
                                     className="cursor-pointer hover:underline whitespace-nowrap"
                                 >
                                     {topic.name}

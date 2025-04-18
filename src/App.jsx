@@ -6,6 +6,7 @@ import NotFound from './components/NotFound';
 import Navbar from './components/Navbar';
 import BrowseTopics from "./components/browse-topics.jsx";
 import SingleArticle from "./components/SingleArticle.jsx";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path="/topics/:topic/:article" element={<SingleArticle />} />
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
+            <Footer/>
         </>
     );
 };
