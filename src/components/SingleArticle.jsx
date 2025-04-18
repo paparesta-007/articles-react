@@ -1,38 +1,29 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { allTitles } from '../assets/Data/topic.js'; // Importa l'oggetto allTitles
+import { allTitles } from '../assets/Data/topic.js'; // Dove sono i tuoi articoli
+import { useEffect, useState } from 'react';
+import Article from "./Article.jsx";
 
 const SingleArticle = () => {
-    const { topic, title } = useParams();
-    const [articles, setArticles] = useState([]); // Stato per memorizzare gli articoli
+    const { topic, article } = useParams();
+    const [articleData, setArticleData] = useState(null);
 
     useEffect(() => {
-        const decodedTopic = decodeURIComponent(topic); // Decodifica il topic
-        // Ottieni gli articoli per il topic selezionato, se esistono
-        const topicArticles = allTitles[decodedTopic] || []; // Default a un array vuoto se non ci sono articoli per il topic
-        setArticles(topicArticles);
-    }, [topic]); // La dipendenza è solo topic, così la useEffect si esegue solo quando il topic cambia
+        const decodedTopic = decodeURIComponent(topic); // serve a trovare l'articolo nel js
+        const decodedArticle = decodeURIComponent(article);
+
+        // Get the articles for the selected topic
+        const topicArticles = allTitles[decodedTopic] || [];
+        const found = topicArticles.find(a => a === decodedArticle);
+        setArticleData(found ? { title: found, content: "Content for " + found } : null);
+    }, [topic, article]);
+
+    if (!articleData) {
+        return <div className="p-8 text-center text-xl">Articolo non trovato 😢</div>;
+    }
 
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold">{decodeURIComponent(title)}</h1>
-            <p className="mt-2 text-gray-700">
-                Articolo nel topic: <strong>{decodeURIComponent(topic)}</strong>
-            </p>
-
-            <div>
-                {articles.length > 0 ? (
-                    articles.map((article, index) => (
-                        <div key={index} className="mt-4">
-                            <h2 className="text-2xl font-semibold">{article}</h2>
-                            {/* Qui puoi aggiungere il contenuto dell'articolo, se presente */}
-                            <p className="text-gray-700">Contenuto dell'articolo per {article}...</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>Non ci sono articoli per questo topic.</p>
-                )}
-            </div>
+        <div className="p-6 max-w-3xl mx-auto">
+            <Article message={articleData.content} />
         </div>
     );
 };

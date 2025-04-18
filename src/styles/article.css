@@ -56,7 +56,7 @@
 
     /* Link */
     .markdown-text a {
-        @apply text-blue-500 hover:text-blue-700 underline;
+        @apply text-green-800 hover:text-green-900 underline;
     }
 
     /* Immagini */

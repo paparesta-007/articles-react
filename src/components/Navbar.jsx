@@ -1,13 +1,33 @@
-import React, { useRef } from 'react';
-import topics from '../assets/Data/topic.js'; // I tuoi topic
+import React, { useRef, useEffect } from 'react';
+import topics from '../assets/Data/topic.js';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const groupTopic = useRef();
+    const chooseBtnRef = useRef(); // Referenza al bottone "Choose topic"
 
     function handleClick() {
         groupTopic.current.classList.toggle('hidden');
     }
+
+    // Effetto che aggiunge e rimuove il listener per chiudere il menu cliccando fuori
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            // Se il click NON è dentro il menu né dentro il bottone "Choose topic"
+            if (
+                groupTopic.current &&
+                !groupTopic.current.contains(event.target) &&
+                !chooseBtnRef.current.contains(event.target)
+            ) {
+                groupTopic.current.classList.add('hidden'); // Nascondi
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
 
     return (
         <div className="flex sticky top-0 bg-[#F2EFC7] py-2 px-2 items-center justify-between w-full z-50">
@@ -20,19 +40,27 @@ const Navbar = () => {
                     <Link to="/articlePersonal" className="cursor-pointer hover:underline mx-1">My own article</Link>
 
                     <li className="relative cursor-pointer mx-1">
-                        <span className="hover:underline" onClick={handleClick}>Choose topic</span>
+                        {/* bottone "Choose topic" */}
+                        <span
+                            ref={chooseBtnRef}
+                            className="hover:underline"
+                            onClick={handleClick}
+                        >
+                            Choose topic
+                        </span>
 
+                        {/* menu dropdown */}
                         <div
                             ref={groupTopic}
                             className="absolute top-full right-0 mt-2 p-4 w-[450px] bg-[#F2EFC7] border transition duration-300 shadow-md rounded grid grid-cols-3 gap-2 justify-between text-[1rem] z-50 hidden"
                         >
                             {topics.map((topic, i) => (
                                 <Link
-                                    to={`/article/${encodeURIComponent(topic)}`}
+                                    to={`/topics/${encodeURIComponent(topic.name)}`}
                                     key={i}
                                     className="cursor-pointer hover:underline whitespace-nowrap"
                                 >
-                                    {topic}
+                                    {topic.name}
                                 </Link>
                             ))}
                         </div>

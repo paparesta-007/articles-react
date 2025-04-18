@@ -14,7 +14,9 @@ body {
     font-family: "Times New Roman", sans-serif;
 
 }
-
+.titleHome{
+    font-family: "Comic Sans MS", Times, serif;
+}
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 60px;
