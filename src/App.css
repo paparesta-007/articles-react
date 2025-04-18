@@ -1,35 +1,65 @@
- @import "tailwindcss";
+@import "tailwindcss";
 
- /*@font-face {*/
- /*    font-family: "Styrene";*/
- /*    src: url("/src/assets/font/Styrene-regular.otf") format("opentype");*/
- /*    font-weight: normal;*/
- /*    font-style: normal;*/
- /*}*/
+@font-face {
+    font-family: "Styrene";
+    src: url("/src/assets/font/Styrene-regular.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
 
-body{
+body {
     background-color: #F2EFC7;
     /*background-color: white;*/
     /*font-family: "Styrene", Times, serif;*/
-    font-family:Styrene, sans-serif;
+    font-family: "Times New Roman", sans-serif;
 
 }
 
- /* HTML: <div class="loader"></div> */
- .loader {
-     width: 60px;
-     aspect-ratio: 2;
-     --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
-     background:
-             var(--_g) 0%   50%,
-             var(--_g) 50%  50%,
-             var(--_g) 100% 50%;
-     background-size: calc(100%/3) 50%;
-     animation: l3 1s infinite linear;
- }
- @keyframes l3 {
-     20%{background-position:0%   0%, 50%  50%,100%  50%}
-     40%{background-position:0% 100%, 50%   0%,100%  50%}
-     60%{background-position:0%  50%, 50% 100%,100%   0%}
-     80%{background-position:0%  50%, 50%  50%,100% 100%}
- }
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: 60px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+    background: var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 50%;
+    animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%
+    }
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%
+    }
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%
+    }
+}
+
+/* SELECT TEXT STYLE*/
+
+::selection{
+    background: #95b684;
+    color: black;
+}
+/*SCROLLBAR STYLING*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e5e2bc;
+}
+::-webkit-scrollbar-thumb {
+    background: #95b684;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8eaa80;
+}

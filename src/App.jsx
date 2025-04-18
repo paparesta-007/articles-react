@@ -1,8 +1,10 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Article from './components/Article.jsx';
 import PromptAI from './components/PromptAI.jsx';
 import Loader from "./components/Loader.jsx";
+import Footer from "./components/Footer.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 function App() {
     const [message, setMessage] = useState("Tell me something interesting");
@@ -13,8 +15,6 @@ function App() {
 
     useEffect(() => {
         setIsLoading(true);
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 secondi timeout
 
         async function fetchData() {
             setIsLoading(true)
@@ -33,16 +33,16 @@ The article must follow this structure:
 5. Use **bold**, *italic*, and \`inline code\` where appropriate to highlight important terms or concepts.
 6. When appropriate (only for technical topics), include a **code block** (use markdown \`\`\` syntax) to demonstrate technical ideas or examples.
 7. Provide a **brief conclusion or summary** that reinforces the main takeaways.
-8. Optionally, end with a short **callout box** or **tip** formatted using markdown (like a note or warning style if needed).
+8. Use also callout, tables, boxes or tips if needed. And images from internet
+9. Optionally, end with a short **callout box** or **tip** formatted using markdown (like a note or warning style if needed).
 
 Use proper **Markdown syntax** throughout the article.
 The tone should be clear, friendly, and informative.
 Absolutely **avoid emojis**.
 
 The content should be creative, helpful, and enjoyable to read.
-Avoid writing "Here it is" or "Sure..." 
+AVOID using phrases like "Here it is" or "Sure..." THE FIRST LINE MUST BE AN HEADER WITH TITLE OF THE ARTICLE.
 `;
-
 
             try {
                 const response = await fetch(ENDPOINT, {
@@ -52,12 +52,9 @@ Avoid writing "Here it is" or "Sure..."
                         "Accept": "application/json"
                     },
                     body: JSON.stringify({
-                        contents: [{parts: [{text: promptAI.trim()}]}],
+                        contents: [{ parts: [{ text: promptAI.trim() }] }],
                     }),
-                    signal: controller.signal
                 });
-
-                clearTimeout(timeoutId); // stoppa timeout
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
@@ -65,9 +62,9 @@ Avoid writing "Here it is" or "Sure..."
                     return;
                 }
 
-                const {candidates} = await response.json();
+                const { candidates } = await response.json();
                 const text = candidates?.[0]?.content?.parts?.[0]?.text || "";
-                setIsLoading(false)
+                setIsLoading(false);
                 setOutput(text);
 
             } catch (error) {
@@ -78,20 +75,18 @@ Avoid writing "Here it is" or "Sure..."
 
         fetchData();
 
-        return () => {
-            controller.abort(); // pulizia se cambia il prompt prima del completamento
-            clearTimeout(timeoutId);
-        };
-    }, [message]);
+    }, [message, ENDPOINT]);
 
     return (
-        <div className="min-h-screen p-8  flex flex-col items-center gap-6">
-            <PromptAI onSend={setMessage}/>
+        <div className="min-h-screen py-4 sm:px-0 px-4  flex flex-col items-center gap-6">
+            <Navbar/>
+            <PromptAI onSend={setMessage} />
             {isLoading ? (
-                <Loader/>
-            ) :(
-                <Article content={output}/>
+                <Loader />
+            ) : (
+                <Article content={output} />
             )}
+            <Footer />
         </div>
     );
 }

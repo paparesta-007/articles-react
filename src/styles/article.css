@@ -3,7 +3,7 @@
 @layer components {
     /* Impostiamo il font di base per tutti gli elementi con la classe markdown-text tranne gli header e altri con altezza fissa */
     .markdown-text p,ul,ol,li {
-        font-size: 1.2rem !important; /* Impostiamo il font-size per tutti */
+        font-size: 1.3rem !important; /* Impostiamo il font-size per tutti */
     }
 
     /* Mantenere la dimensione dei font per gli header */
@@ -66,17 +66,19 @@
 
     /* Codice inline */
     .markdown-text code {
-        @apply  text-gray-800 px-1 py-0.5 rounded-sm;
+        @apply  text-gray-800 bg-[rgba(0,0,0,0.06)] text-[15px]  px-1 py-0.5 rounded-sm;
     }
 
     /* Blocchi di codice */
     .markdown-text pre {
-        @apply bg-[rgba(0,0,0,0.08)]  text-white p-4 rounded-lg overflow-auto mb-4;
+        @apply bg-[rgba(0,0,0,0.08)] text-[14px] text-white p-4 rounded-lg overflow-auto mb-4;
     }
-
+    .markdown-text pre code{
+        @apply bg-transparent;
+    }
     /* Separatori orizzontali */
     .markdown-text hr {
-        @apply border-t-2 border-gray-200 my-4;
+        @apply border-t-2 border-gray-700 my-4;
     }
 
     /* Tabelle */
@@ -85,15 +87,15 @@
     }
 
     .markdown-text thead {
-        @apply bg-gray-100;
+        @apply  bg-[rgba(0,0,0,0.2)];
     }
 
     .markdown-text th {
-        @apply border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700;
+        @apply border border-gray-600 px-4 py-2 text-left font-semibold text-gray-900;
     }
 
     .markdown-text td {
-        @apply border border-gray-300 px-4 py-2 text-gray-700;
+        @apply border border-gray-500 px-4 py-2 text-gray-700;
     }
 
     /* Testo in grassetto */
@@ -204,4 +206,36 @@
     .markdown-text figcaption {
         @apply text-sm text-center text-gray-500 mt-2;
     }
+}
+/* Importa il tema base */
+
+/* Sovrascrive lo sfondo per renderlo trasparente */
+pre[class*="language-"]
+{
+    background: rgba(0, 0, 0, 0.1) !important;
+    /*opacity: 10%;*/
+}
+code[class*="language-"],pre[class*="language-"]{
+    font-size: 14px !important;
+}
+
+
+::selection{
+    background: #95b684 !important;
+    color: black;
+}
+/*SCROLLBAR STYLING*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e5e2bc;
+}
+::-webkit-scrollbar-thumb {
+    background: #95b684;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8eaa80;
 }
