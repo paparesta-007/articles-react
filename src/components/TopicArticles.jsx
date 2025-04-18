@@ -1,38 +1,99 @@
-import {Link, useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { allTitles } from '../assets/Data/topic.js'; // Importa l'oggetto allTitles
+import prismjs from "prismjs";
 
 const TopicArticles = () => {
-    const { topic, article } = useParams();
-    const [articles, setArticles] = useState([]); // Stato per memorizzare gli articoli
+    const { topic } = useParams();
+    const [articles, setArticles] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const api_key = import.meta.env.VITE_GEMINI_API;
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${encodeURIComponent(api_key)}`;
 
     useEffect(() => {
-        const decodedTopic = decodeURIComponent(topic); // Decodifica il topic
-        // Ottieni gli articoli per il topic selezionato, se esistono
-        const topicArticles = allTitles[decodedTopic] || []; // Default a un array vuoto se non ci sono articoli per il topic
-        setArticles(topicArticles);
-    }, [topic]); // La dipendenza è solo topic, così la useEffect si esegue solo quando il topic cambia
+        setIsLoading(true);
+
+        async function fetchData() {
+            const promptAI = `Generate 15 engaging and diverse article titles about the topic
+             "${decodeURIComponent(topic)}" and its descriptions and tags. You can include general discussions, deep dives into subtopics,
+              famous examples (like languages, artists, books, or tools), or specific case studies if applicable.
+               The result must be a raw JSON array of titles. Do NOT include any formatting, markdown, explanation,
+                or additional text—just return the JSON of {title:title, description:description, tags:[tags]}.`;
+
+            try {
+                const response = await fetch(ENDPOINT, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptAI.trim() }] }],
+                    }),
+                });
+
+                const { candidates } = await response.json();
+                let text = candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+                // ✅ RIMUOVE eventuali ```json o ``` blocchi
+                text = text.replace(/```json|```/g, "").trim();
+
+                // ✅ PARSA il JSON ora valido
+                const generatedTitles = JSON.parse(text);
+
+                if (Array.isArray(generatedTitles)) {
+                    setArticles(generatedTitles);
+                } else {
+                    console.error("Errore: la risposta non è un array");
+                }
+            } catch (error) {
+                console.error("API call failed:", error.name, error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchData();
+    }, [topic, ENDPOINT]);
+
+    useEffect(() => {
+        prismjs.highlightAll();
+    }, [articles]);
 
     return (
         <div className="p-6 border border-green-300 items-center flex flex-col">
-            <p className="text-2xl text-gray-700">
-                Articolo nel topic: <strong>{decodeURIComponent(topic)}</strong>
+            <p className="text-2xl text-gray-700 text-center">
+                Articoli per il topic: <strong>{decodeURIComponent(topic)}</strong>
             </p>
 
-            <div className="flex flex-col w-full md:w-[50%] align-middle">
-                {articles.length > 0 ? (
+            <div className="flex flex-col w-full md:w-[60%] mt-6">
+                {isLoading ? (
+                    <p>Caricamento in corso...</p>
+                ) : articles.length > 0 ? (
                     articles.map((article, index) => (
-                        <Link to={`/topics/${encodeURIComponent(topic)}/${encodeURIComponent(article)}`} key={index} className="mt-4 p-4 border hover:shadow-lg rounded flex flex-col md:flex-row items-start justify-between">
-                            <div className="w-full md:w-[60%]  flex flex-col">
-                                <h2 className="text-xl font-semibold">{article}</h2>
-                                {/* Qui puoi aggiungere il contenuto dell'articolo, se presente */}
-                                <p className="text-gray-700">Contenuto dell'articolo per {article}...</p>
+                        <Link
+                            state={{ topic: topic, article: article }}
+                            to={`/topics/${encodeURIComponent(topic)}/${encodeURIComponent(article.title)}`}
+                            key={index}
+                            className="mt-4 p-4 border hover:shadow-lg rounded flex flex-col md:flex-row items-start justify-between transition"
+                        >
+                            <div className="w-full md:w-[70%] flex flex-col">
+                                <h2 className="text-2xl font-semibold">{article.title}</h2>
+                                <p className="text-gray-700 text-lg">{article.description}</p>
+                               <div className="flex flex-wrap">
+                                   {
+                                       article.tags?.map((tag, index) => (
+                                           <span key={index} className="text-white text-shadow-md p-2 bg-green-700 rounded-full mr-2">
+                                            {tag}
+                                        </span>
+                                       ))
+                                   }
+                               </div>
                             </div>
-                            <img src="https://placehold.co/200" alt="Placeholder" className="md:ml-4 object-cover" />
+                            <img src={`https://placehold.co/200?text=${index + 1}`} alt="Placeholder" className="md:ml-4 object-cover rounded" />
                         </Link>
                     ))
                 ) : (
-                    <p>Non ci sono articoli per questo topic.</p>
+                    <p>Nessun articolo generato per ora.</p>
                 )}
             </div>
         </div>

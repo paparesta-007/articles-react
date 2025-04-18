@@ -5,16 +5,15 @@ import Article from "./Article.jsx";
 
 const SingleArticle = () => {
     const { topic, article } = useParams();
+    // Mi prendo il topic e l'articolo dall'url
     const [articleData, setArticleData] = useState(null);
+
 
     useEffect(() => {
         const decodedTopic = decodeURIComponent(topic); // serve a trovare l'articolo nel js
-        const decodedArticle = decodeURIComponent(article);
-
-        // Get the articles for the selected topic
-        const topicArticles = allTitles[decodedTopic] || [];
-        const found = topicArticles.find(a => a === decodedArticle);
-        setArticleData(found ? { title: found, content: "Content for " + found } : null);
+        const decodedArticle = decodeURIComponent(article); // serve a trovare l'articolo nel js
+        // decodifico il topic
+        setArticleData(decodedArticle);
     }, [topic, article]);
 
     if (!articleData) {
@@ -23,7 +22,7 @@ const SingleArticle = () => {
 
     return (
         <div className="p-6 max-w-3xl mx-auto">
-            <Article message={articleData.content} />
+            <Article message={article} />
         </div>
     );
 };

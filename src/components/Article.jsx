@@ -1,18 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import Markdown from "markdown-to-jsx";
-import prismjs from "prismjs"; // Assicurati che PrismJS venga importato correttamente
-import 'prismjs/themes/prism.css'; // Importa il tema di PrismJS
-import 'prismjs/components/prism-javascript.min.js'; // Aggiungi i linguaggi che desideri supportare
-import '../styles/article.css';
-import '../styles/prism-gruvbox-light.css'; // Esempio di un tema alternativo
+import prismjs from "prismjs";
+import { Clipboard, ClipboardCheck } from "lucide-react";
+import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-javascript.min.js';
 import 'prismjs/components/prism-python.min.js';
 import 'prismjs/components/prism-ruby.min.js';
 import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-go.min.js';
-
-
+import '../styles/article.css';
+import '../styles/prism-gruvbox-light.css';
+import promptText from "../assets/Data/prompt.js";
 import Loader from "./Loader.jsx";
+
+const PreWithCopyButton = ({ children, ...props }) => {
+    const [copied, setCopied] = useState(false);
+
+    // Trova il blocco <code> figlio e recupera il testo
+    const codeElement = React.Children.toArray(children).find(child =>
+        React.isValidElement(child) && child.type === 'code'
+    );
+
+    const code = typeof codeElement?.props?.children === 'string'
+        ? codeElement.props.children
+        : Array.isArray(codeElement?.props?.children)
+            ? codeElement.props.children.join("")
+            : "";
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(code.trim()).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        });
+    };
+
+    return (
+        <pre {...props} style={{ position: 'relative' }}>
+            <button
+                className="copy-button"
+                onClick={handleCopy}
+                style={{
+                    position: "absolute",
+                    top: "8px",
+                    right: "8px",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    zIndex: 10,
+                    color: "#666"
+                }}
+                aria-label="Copy to clipboard"
+            >
+                {copied ? <ClipboardCheck size={18} /> : <Clipboard size={18} />}
+            </button>
+            {children}
+        </pre>
+    );
+};
+
 
 const Article = ({ message }) => {
     const [output, setOutput] = useState("");
@@ -24,31 +69,7 @@ const Article = ({ message }) => {
         if (message !== "") {
             setIsLoading(true);
 
-            const promptAI = `
-      You are a professional article writer specialized in creating detailed, well-structured, and engaging content for blog readers.
-
-      Write a **long and informative article** based on the following topic:
-      "${message}"
-
-      The article must follow this structure:
-      A table of contents at the top of the article inside a toggle.
-      1. **A compelling and concise introduction** that captures the reader's attention.
-      2. **At least 3 sections**, each with a clear and meaningful markdown heading (## or ###).
-      3. Use **bullet points** and **numbered lists** when explaining steps, facts, or examples.
-      4. Insert **quotes** (using \`>\`) to emphasize key messages, expert opinions, or philosophical thoughts.
-      5. Use **bold**, *italic*, and \`inline code\` where appropriate to highlight important terms or concepts.
-      6. When appropriate (only for technical topics), include a **code block** (use markdown \`\`\` syntax) to demonstrate technical ideas or examples.
-      7. Provide a **brief conclusion or summary** that reinforces the main takeaways.
-      8. Use also callout, tables, boxes or if needed. And images from https://placehold.co/{widthsize}
-      9. Optionally, end with a short **callout box** formatted using markdown (like a note or warning style if needed).
-
-      Use proper **Markdown syntax** throughout the article.
-      The tone should be clear, friendly, and informative.
-      Absolutely **avoid emojis**.
-
-      The content should be creative, helpful, and enjoyable to read.
-      AVOID using phrases like "Here it is" or "Sure..." THE FIRST LINE MUST BE AN HEADER WITH TITLE OF THE ARTICLE.
-      `;
+            const promptAI = promptText + message;
 
             async function fetchData() {
                 try {
@@ -76,7 +97,6 @@ const Article = ({ message }) => {
                     console.error("API call failed:", error.name, error.message);
                 } finally {
                     setIsLoading(false);
-                    console.log(message)
                 }
             }
 
@@ -84,10 +104,9 @@ const Article = ({ message }) => {
         }
     }, [message, ENDPOINT]);
 
-    // Esegui il highlighting del codice ogni volta che il contenuto viene aggiornato
     useEffect(() => {
         if (output) {
-            prismjs.highlightAll(); // Applicare PrismJS per evidenziare il codice
+            prismjs.highlightAll();
         }
     }, [output]);
 
@@ -95,7 +114,15 @@ const Article = ({ message }) => {
 
     return (
         <div className="prose markdown-text sm:max-w-[90%] md:max-w-[800px] sm:p-4 p-0 rounded-md w-full">
-            <Markdown>
+            <Markdown
+                options={{
+                    overrides: {
+                        pre: {
+                            component: PreWithCopyButton
+                        }
+                    }
+                }}
+            >
                 {output}
             </Markdown>
         </div>
