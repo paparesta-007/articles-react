@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Markdown from "markdown-to-jsx";
 import prismjs from "prismjs";
-import { Clipboard, ClipboardCheck } from "lucide-react";
+import {Clipboard, ClipboardCheck} from "lucide-react";
 import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-javascript.min.js';
 import 'prismjs/components/prism-python.min.js';
@@ -13,7 +13,7 @@ import '../styles/prism-gruvbox-light.css';
 import promptText from "../assets/Data/prompt.js";
 import Loader from "./Loader.jsx";
 
-const PreWithCopyButton = ({ children, ...props }) => {
+const PreWithCopyButton = ({children, ...props}) => {
     const [copied, setCopied] = useState(false);
 
     // Trova il blocco <code> figlio e recupera il testo
@@ -35,7 +35,7 @@ const PreWithCopyButton = ({ children, ...props }) => {
     };
 
     return (
-        <pre {...props} style={{ position: 'relative' }}>
+        <pre {...props} style={{position: 'relative'}}>
             <button
                 className="copy-button"
                 onClick={handleCopy}
@@ -51,7 +51,7 @@ const PreWithCopyButton = ({ children, ...props }) => {
                 }}
                 aria-label="Copy to clipboard"
             >
-                {copied ? <ClipboardCheck size={18} /> : <Clipboard size={18} />}
+                {copied ? <ClipboardCheck size={18}/> : <Clipboard size={18}/>}
             </button>
             {children}
         </pre>
@@ -59,19 +59,19 @@ const PreWithCopyButton = ({ children, ...props }) => {
 };
 
 
-const Article = ({ message }) => {
+const Article = ({message}) => {
     const [output, setOutput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const api_key = import.meta.env.VITE_GEMINI_API;
     const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${encodeURIComponent(api_key)}`;
-
+    document.title = message;
     useEffect(() => {
         if (message !== "") {
             setIsLoading(true);
 
             const promptAI = promptText + message;
-
-            async function fetchData() {
+            // console.log(promptAI);
+            async function fetchData(y) {
                 try {
                     const response = await fetch(ENDPOINT, {
                         method: "POST",
@@ -80,7 +80,7 @@ const Article = ({ message }) => {
                             "Accept": "application/json"
                         },
                         body: JSON.stringify({
-                            contents: [{ parts: [{ text: promptAI.trim() }] }],
+                            contents: [{parts: [{text: promptAI.trim()}]}],
                         }),
                     });
 
@@ -90,7 +90,7 @@ const Article = ({ message }) => {
                         return;
                     }
 
-                    const { candidates } = await response.json();
+                    const {candidates} = await response.json();
                     const text = candidates?.[0]?.content?.parts?.[0]?.text || "";
                     setOutput(text);
                 } catch (error) {
@@ -110,23 +110,28 @@ const Article = ({ message }) => {
         }
     }, [output]);
 
-    if (isLoading) return <Loader />;
 
     return (
-        <div className="prose markdown-text sm:max-w-[90%] md:max-w-[800px] sm:p-4 p-0 rounded-md w-full">
-            <Markdown
-                options={{
-                    overrides: {
-                        pre: {
-                            component: PreWithCopyButton
+        <div className="prose markdown-text flex flex-col items-center justify-center sm:w-[90vw] md:w-[750px] w-[100vw] p-4">
+
+        {isLoading ? (
+                <Loader />
+            ) : (
+                <Markdown
+                    options={{
+                        overrides: {
+                            pre: {
+                                component: PreWithCopyButton
+                            }
                         }
-                    }
-                }}
-            >
-                {output}
-            </Markdown>
+                    }}
+                >
+                    {output}
+                </Markdown>
+            )}
         </div>
     );
+
 };
 
 export default Article;

@@ -1,14 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import prismjs from "prismjs";
+import Loader from "./Loader.jsx";
 
 const TopicArticles = () => {
     const { topic } = useParams();
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const api_key = import.meta.env.VITE_GEMINI_API;
-    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${encodeURIComponent(api_key)}`;
+    const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(api_key)}`;
 
+    document.title = `Articles for topic: ${decodeURIComponent(topic)}`;
     useEffect(() => {
         setIsLoading(true);
 
@@ -28,6 +30,9 @@ const TopicArticles = () => {
                     },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: promptAI.trim() }] }],
+                        generationConfig: { // Add this for Temperature
+                            temperature: 0.8,
+                        }
                     }),
                 });
 
@@ -60,21 +65,21 @@ const TopicArticles = () => {
     }, [articles]);
 
     return (
-        <div className="p-6 border border-green-300 items-center flex flex-col">
-            <p className="text-2xl text-gray-700 text-center">
-                Articoli per il topic: <strong>{decodeURIComponent(topic)}</strong>
+        <div className="p-6 w-full items-center flex flex-col">
+            <p className="text-3xl text-gray-700 text-center">
+                <strong>{decodeURIComponent(topic)}</strong>
             </p>
 
-            <div className="flex flex-col w-full md:w-[60%] mt-6">
+            <div className="flex flex-col w-full md:w-[60%] mt-6 items-center justify-center">
                 {isLoading ? (
-                    <p>Caricamento in corso...</p>
+                    <Loader/>
                 ) : articles.length > 0 ? (
                     articles.map((article, index) => (
                         <Link
                             state={{ topic: topic, article: article }}
                             to={`/topics/${encodeURIComponent(topic)}/${encodeURIComponent(article.title)}`}
                             key={index}
-                            className="mt-4 p-4 border hover:shadow-lg rounded flex flex-col md:flex-row items-start justify-between transition"
+                            className="mt-4 p-4 border hover:shadow-lg rounded w-full flex flex-col md:flex-row items-start justify-between transition"
                         >
                             <div className="w-full md:w-[70%] flex flex-col">
                                 <h2 className="text-2xl font-semibold">{article.title}</h2>

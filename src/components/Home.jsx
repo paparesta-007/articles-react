@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom';
 import imgHome from '../assets/images/ai-writing-article-removebg-preview.png';
 
 const Home = () => {
+    document.title = 'AI Writing Article';
     return (
-        <div className="w-full flex flex-col items-center justify-center p-6">
-            <div className="max-w-6xl min-h-screen w-full grid md:grid-cols-2 gap-10 items-center">
+        <div className="w-full  flex flex-col items-center justify-center p-6">
+            <div className="w-full min-h-screen w-full grid md:grid-cols-2 gap-10 items-center">
                 {/* Left content */}
                 <div className="space-y-6">
                     <h1 className="text-5xl font-extrabold leading-tight text-gray-900">
-                        The article website,<br />
+                        The AI article website,<br />
                         <span className="text-green-700">free forever</span> and open source.
                     </h1>
                     <p className="text-lg text-gray-700 titleHome">
                         Everyone knows Medium, a site to write and share articles. With <strong> no ads. </strong>
                         We offer the same freedom, but <strong>without subscription plans </strong>unlike Medium and powered by <span className="font-semibold">AI</span>.<br />
-                        1 question, 1 click, 1 article. Nothing easier than that right?.
+                        1 question, 1 click, 1 article. Nothing easier than that right?
                     </p>
                     <Link to="/topics">
                         <button className="bg-green-700 select-none hover:bg-green-900 transition-colors text-white text-lg font-medium py-3 px-6 rounded-xl shadow-lg cursor-pointer">

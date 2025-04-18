@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="border-t py-10 w-full justify-between mx-auto text-sm text-gray-600 mt-60">
+        <footer className="border-t py-10 w-full justify-between mx-auto text-sm text-gray-600 ">
 
 
             {/* Licenza */}

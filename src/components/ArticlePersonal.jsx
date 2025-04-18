@@ -7,7 +7,7 @@ import Navbar from "./Navbar.jsx";
 
 function ArticlePersonal() {
     const [message, setMessage] = useState("");
-
+    console.log(message);
     return (
         <div className=" sm:px-0 px-4 flex flex-col items-center gap-6">
             {/*<Navbar />*/}

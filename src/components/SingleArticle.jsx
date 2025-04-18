@@ -13,7 +13,7 @@ const SingleArticle = () => {
         const decodedTopic = decodeURIComponent(topic); // serve a trovare l'articolo nel js
         const decodedArticle = decodeURIComponent(article); // serve a trovare l'articolo nel js
         // decodifico il topic
-        setArticleData(decodedArticle);
+        setArticleData(decodedTopic);
     }, [topic, article]);
 
     if (!articleData) {
@@ -21,7 +21,7 @@ const SingleArticle = () => {
     }
 
     return (
-        <div className="p-6 max-w-3xl mx-auto">
+        <div className="p-6 flex items-center justify-center w-full mx-auto">
             <Article message={article} />
         </div>
     );

@@ -5,8 +5,15 @@
     .markdown-text p,ul,ol,li {
         font-size: 1.3rem !important; /* Impostiamo il font-size per tutti */
     }
-
-    /* Mantenere la dimensione dei font per gli header */
+    @media (max-width: 768px) {
+        .markdown-text p,ul,ol,li {
+            font-size: 1.2rem !important; /* Impostiamo il font-size per tutti */
+        }
+    }
+    .markdown-text{
+        overflow-x: auto;
+    }
+        /* Mantenere la dimensione dei font per gli header */
     .markdown-text h1 {
         @apply text-4xl font-bold text-black mt-6 mb-4 ;
     }
