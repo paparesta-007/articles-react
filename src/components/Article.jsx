@@ -112,7 +112,8 @@ const Article = ({message}) => {
 
 
     return (
-        <div className="prose markdown-text flex flex-col items-center justify-center sm:w-[90vw] md:w-[750px] w-[100vw] p-4">
+        <div
+            className="prose markdown-text flex flex-col items-center justify-center sm:w-[60vw] md:w-[650px] w-[100vw] ">
 
         {isLoading ? (
                 <Loader />

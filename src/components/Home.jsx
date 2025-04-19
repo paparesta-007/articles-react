@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import imgHome from '../assets/images/ai-writing-article-removebg-preview.png';
 
 const Home = () => {
     document.title = 'AI Writing Article';
     return (
-        <div className="w-full  flex flex-col items-center justify-center p-6">
-            <div className="w-full min-h-screen w-full grid md:grid-cols-2 gap-10 items-center">
+        <div className="w-full   flex flex-col items-center justify-center p-6">
+            <div className="w-full min-h-screen md:w-[60%] grid md:grid-cols-2 gap-10 items-center">
                 {/* Left content */}
                 <div className="space-y-6">
                     <h1 className="text-5xl font-extrabold leading-tight text-gray-900">

@@ -2,13 +2,27 @@
 
 @layer components {
     /* Impostiamo il font di base per tutti gli elementi con la classe markdown-text tranne gli header e altri con altezza fissa */
+    .markdown-text div {
+        box-sizing: border-box;
+        /*width: 95% !important;*/
+        @apply lg:w-[700px] md:w-[60%] sm:w-[70%] w-[95%] flex flex-col ;
+    }
     .markdown-text p,ul,ol,li {
         font-size: 1.3rem !important; /* Impostiamo il font-size per tutti */
     }
+
+    .markdown-text {
+        width: 100% !important;
+    }
     @media (max-width: 768px) {
         .markdown-text p,ul,ol,li {
-            font-size: 1.2rem !important; /* Impostiamo il font-size per tutti */
+            /*font-size: 1.2rem !important; !* Impostiamo il font-size per tutti *!*/
         }
+    }
+    .markdown-text img {
+        max-width: 100%;
+        height: auto;
+        display: block;
     }
     .markdown-text{
         overflow-x: auto;
@@ -58,9 +72,12 @@
 
     /* Blocchi di citazione */
     .markdown-text blockquote {
-        @apply border-l-4 pl-4 italic text-gray-600 border-gray-800 bg-[rgba(0,0,0,0.06)] rounded-sm mb-4;
+        @apply border-l-4 pl-4 italic flex align-middle text-gray-600 border-gray-800 bg-[rgba(0,0,0,0.06)] rounded-sm mb-4;
     }
 
+    .markdown-text blockquote p {
+        @apply text-gray-800 m-2;
+    }
     /* Link */
     .markdown-text a {
         @apply text-green-800 hover:text-green-900 underline;
@@ -73,13 +90,23 @@
 
     /* Codice inline */
     .markdown-text code {
-        @apply  text-gray-800 bg-[rgba(0,0,0,0.06)] text-[15px] px-1 py-0.5 rounded-sm;
+        @apply text-gray-800 bg-[rgba(0,0,0,0.06)] overflow-auto text-[15px] px-1 py-0.5 rounded-sm;
+    }
+
+    .markdown-text code {
+        word-break: break-word;
+    }
+
+    .markdown-text pre {
+        word-break: break-word;
     }
 
     /* Blocchi di codice */
     .markdown-text pre {
         @apply bg-[rgba(0,0,0,0.08)] text-[14px] text-white p-4 rounded-lg overflow-auto mb-4;
+        max-width: 100%;
     }
+
     .markdown-text pre code{
         @apply bg-transparent;
     }
@@ -90,7 +117,7 @@
 
     /* Tabelle */
     .markdown-text table {
-        @apply w-full border-collapse mb-4;
+        @apply w-[100%] border-collapse mb-4;
     }
 
     .markdown-text thead {

@@ -1,6 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { allTitles } from '../assets/Data/topic.js'; // Dove sono i tuoi articoli
-import { useEffect, useState } from 'react';
+import {useParams} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import Article from "./Article.jsx";
 
 const SingleArticle = () => {
@@ -21,7 +20,7 @@ const SingleArticle = () => {
     }
 
     return (
-        <div className="p-6 flex items-center justify-center w-full mx-auto">
+        <div className="p-3 flex items-center justify-center w-full mx-auto">
             <Article message={article} />
         </div>
     );

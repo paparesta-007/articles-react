@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, {useEffect, useRef} from 'react';
 import topics from '../assets/Data/topic.js';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {House, List, Newspaper} from "lucide-react";
 
 const Navbar = () => {
     const groupTopic = useRef();
@@ -36,14 +37,16 @@ const Navbar = () => {
             </div>
             <div>
                 <ul className="flex gap-4 items-center text-lg relative select-none">
-                    <Link to="/" className="cursor-pointer hover:underline mx-1">Home</Link>
-                    <Link to="/articlePersonal" className="cursor-pointer hover:underline mx-1">My own article</Link>
+                    <Link to="/" className="cursor-pointer hover:underline mx-1  flex items-center gap-2"><House
+                        className="md:hidden block"/><span className="hidden md:block">Home</span></Link>
+                    <Link to="/articlePersonal" className="cursor-pointer flex items-center gap-2 hover:underline mx-1"><Newspaper
+                        className="md:hidden block"/><span className="hidden md:block">My own article</span></Link>
 
                     <li className="relative cursor-pointer mx-1">
-                        {/* bottone "Choose topic" */}
+                        <List className="md:hidden block"/>
                         <span
                             ref={chooseBtnRef}
-                            className="hover:underline"
+                            className="hover:underline cursor-pointer md:block hidden"
                             onClick={handleClick}
                         >
                             Choose topic
