@@ -261,7 +261,14 @@ code[class*="language-"] {
     background: transparent !important; /* elimina lo sfondo se serve */
 }
 
+.question-card {
+    font-size: 10px !important;
+    border: 1px solid red;
+}
 
+.question-card h2 {
+    font-size: 18px !important;
+}
 ::selection{
     background: #95b684 !important;
     color: black;

@@ -12,6 +12,7 @@ import '../styles/article.css';
 import '../styles/prism-gruvbox-light.css';
 import promptText from "../assets/Data/prompt.js";
 import Loader from "./Loader.jsx";
+import ArticleQuestions from "./ArticlesQuestions.jsx";
 
 const PreWithCopyButton = ({children, ...props}) => {
     const [copied, setCopied] = useState(false);
@@ -118,6 +119,7 @@ const Article = ({message}) => {
         {isLoading ? (
                 <Loader />
             ) : (
+            <>
                 <Markdown
                     options={{
                         overrides: {
@@ -129,6 +131,10 @@ const Article = ({message}) => {
                 >
                     {output}
                 </Markdown>
+                <div>
+                    <ArticleQuestions content={output}/>
+                </div>
+            </>
             )}
         </div>
     );
